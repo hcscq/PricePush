@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<statements>
+		<!--WMFLG='N' and-->
+		<!--获取订单状态-->
+		<select id="StateUpdateBill.getBillState" parameterClass="wms_transmitter.VO.ValObj" resultClass="wms_transmitter.Domain.UpdateStateBill">
+      SELECT
+      P.WAYBILL,
+      P.CACODE,
+      P.YZID,
+      P.DJBH,
+      P.DWID,
+      ACTTYPE,
+      PRESTATE,
+      CURSTATE,
+      OPERUSER,
+      OPERDATE,
+      YXJ,
+      ZYLB,
+      P.BCH,
+      P.DDLX,
+      ZT,
+      WMFLG,
+      P.ZYZT,
+      P.BZ
+      FROM OUT_SALE_STATUS_UP P,OUT_SALE_BILLING_M M
+      WHERE P.DJBH=M.DJBH
+      AND M.DDLX = '电商'
+      AND WMFLG = 'N'
+      <!--AND M.BILL_CANCEL='N'
+      AND M.SF_LOCK='N'-->
+      AND M.OPFORM = #orderFrom#
+      <!--AND LASTOPDATE <![CDATA[<=]]> SYSDATE-->
+      AND RETRY <![CDATA[<]]> 100
+      AND  rownum <![CDATA[<=]]> #rowNum#
+      ORDER BY OPERDATE
+    </select>
+    
+		<!--获取订单状态 从历史-->
+		<select id="StateUpdateBill.getBillStateHTY" parameterClass="wms_transmitter.VO.ValObj" resultClass="wms_transmitter.Domain.UpdateStateBill">
+      SELECT
+      P.WAYBILL,
+      P.CACODE,
+      P.YZID,
+      P.DJBH,
+      P.DWID,
+      ACTTYPE,
+      PRESTATE,
+      CURSTATE,
+      OPERUSER,
+      OPERDATE,
+      YXJ,
+      ZYLB,
+      P.BCH,
+      P.DDLX,
+      ZT,
+      WMFLG,
+      P.ZYZT,
+      P.BZ
+      FROM OUT_SALE_STATUS_UP P,OUT_SALE_BILLING_M_HTY M
+      WHERE P.DJBH=M.DJBH
+      AND M.DDLX = '电商'
+      AND WMFLG = 'N'
+      <!--AND M.BILL_CANCEL='N'
+      AND M.SF_LOCK='N'-->
+      AND M.OPFORM = #orderFrom#
+      <!--AND LASTOPDATE <![CDATA[<=]]> SYSDATE-->
+      AND RETRY <![CDATA[<]]> 100
+      AND rownum <![CDATA[<=]]> #rowNum#
+      ORDER BY OPERDATE
+    </select>
+    
+		<!--更新出库订单上传最后时间-->
+		<update id="StateUpdateBill.updateOperDate" parameterClass="List">
+			update OUT_SALE_STATUS_UP
+			set
+			lastopdate=SYSDATE+(retry*5)/(86400),
+			retry=retry+1
+			where djbh in
+			<iterate  open="(" close=")" conjunction=" ,  ">
+				#[].OrderId#
+			</iterate>
+			and <![CDATA[ retry<300 ]]>
+		</update>
+    
+		<!--更新订单状态-->
+		<update id="StateUpdateBill.updateBillState" parameterClass="List">
+			update OUT_SALE_STATUS_UP set WMFLG='Y' where djbh in
+			<iterate  open="(" close=")" conjunction=",">
+				#[].OrderId#
+			</iterate>
+		</update>
+    
+		<!--获取出库订单-->
+		<select id="StateUpdateBill.getOutBill" parameterClass="wms_transmitter.VO.ValObj" resultClass="wms_transmitter.Domain.SendOutOrder">
+      SELECT
+      b.DJBH,b.DJ_SORT,b.SPID,b.SL,b.JS,b.LSS,b.DJ,b.JE,b.JE_HS,b.SLV,b.SE,b.KL,b.DJ_XS,b.XQYQ,b.PH,b.PHCLFS,b.LSJ,
+      b.INVOICENO,b.INVOICEID,b.AMOUNT,b.TITLE,b.CONTENT,
+      b.SKUCODE,b.INVOICETYPE,
+      C.RQ,
+      C.THFS,
+      C.THSJ,
+      C.RY_CZY,
+      C.KPLB,
+      C.DDLX,
+      C.KHBZ,
+      C.XSLX,
+      C.PSLX,
+      C.SHDZ,
+      C.LXFS,
+      C.SHR,
+      C.FROMTY,
+      C.CANAME,
+      C.CACODE,
+      C.SHOPNA,
+      C.WHCODE,
+      C.BUNICK,
+      C.CUSTNA,
+      C.RECENA,
+      C.PROVCO,
+      C.PROVNA,
+      C.CITYCO,
+      C.CITYNA,
+      C.DISTCO,
+      C.DISTNA,
+      C.ADDRES,
+      C.MOBILE,
+      C.CODE_NUMBER
+      FROM INTERFACE_OUT_SALE_D b
+      JOIN (select
+      DJBH,
+      RQ,
+      THFS,
+      THSJ,
+      RY_CZY,
+      KPLB,
+      DDLX,
+      KHBZ,
+      XSLX,
+      PSLX,
+      SHDZ,
+      LXFS,
+      SHR,
+      FROMTY,
+      CANAME,
+      SHOPNA,
+      WHCODE,
+      BUNICK,
+      CUSTNA,
+      RECENA,
+      PROVCO,
+      PROVNA,
+      CITYCO,
+      CITYNA,
+      DISTCO,
+      DISTNA,
+      ADDRES,
+      MOBILE,
+      CODE_NUMBER,
+      CACODE
+      from INTERFACE_OUT_SALE_M
+      where WMFLG_OMS='N' AND DDLX='电商' AND OPFORM = #orderFrom#
+      and rownum <![CDATA[<=]]> #rowNum# AND RETRY <![CDATA[<]]> 100 AND lastopdate <![CDATA[<=]]> SYSDATE 
+         ) c ON b.djbh=c.djbh
+		</select>
+    
+		<!--更新出库订单上传状态-->
+		<update id="StateUpdateBill.updateOutBill" parameterClass="List">
+      update INTERFACE_OUT_SALE_M set WMFLG='Y', WMFLG_OMS ='Y' where DJBH in
+      <iterate  open="(" close=")" conjunction=" , ">
+				#[].OrderId#
+			</iterate>
+		</update>
+    
+		<!--更新出库订单最后上传时间-->
+		<update id="StateUpdateBill.updateOOperDate" parameterClass="List">
+			update INTERFACE_OUT_SALE_M
+			set
+			lastopdate=SYSDATE+(retry*5)/(86400),
+			retry=retry+1
+			where djbh in
+			<iterate  open="(" close=")" conjunction=" , ">
+				#[].OrderId#
+			</iterate>
+			<![CDATA[and retry<300 ]]>
+		</update>
+    
+		<!--退货订单回传-->
+		<select id="StateUpdateBill.getRefund" parameterClass="wms_transmitter.VO.ValObj" resultClass="wms_transmitter.Domain.RefundBill">
+      SELECT
+      x.DJBH,
+      x.DWID,
+      x.RQ,
+      x.BMID,
+      x.RY_YWY,
+      x.RY_SHOUHY,
+      x.RY_FUHY,
+      x.RY_CZY,
+      x.THLB,
+      x.SF_ZX,
+      x.DJBH_SJ,
+      x.YZID,
+      x.RY_ZJY,
+      x.EXPRESSCODE,
+      x.EXPRESSNAME,
+      x.EXPRESSNUMBER,
+      x.SF_YBTH,
+      z.SPID,
+      Z.SL,
+      Z.DJ,
+      Z.JE,
+      Z.DJ_SORT_SJ,
+      Z.THYY,
+      Z.PH,
+      Z.RQ_SC,
+      Z.YXQZ,
+      Z.DJ_XS,
+      Z.YSPD,
+      Z.DJ_SORT,
+      y.spbh
+      FROM IN_SALE_UPLOAD_D z
+      JOIN (SELECT
+      DJBH,
+      DWID,
+      RQ,
+      BMID,
+      RY_YWY,
+      RY_SHOUHY,
+      RY_FUHY,
+      RY_CZY,
+      THLB,
+      SF_ZX,
+      DJBH_SJ,
+      YZID,
+      RY_ZJY,
+      EXPRESSCODE,
+      EXPRESSNAME,
+      EXPRESSNUMBER,
+      SF_YBTH
+      FROM IN_SALE_UPLOAD_M
+      WHERE WMFLG ='N' AND DJBHTYPE='电商' AND OPFORM = #orderFrom#
+      AND rownum <![CDATA[<=]]> #rowNum# AND RETRY <![CDATA[<]]> 100 AND lastopdate <![CDATA[<=]]> SYSDATE
+            ORDER BY RQ
+      ) x on x.djbh=z.djbh
+      JOIN SPKFK y on y.spid=z.spid  
+    </select>
+    
+		<!--更新退货订单上传状态-->
+		<update id="StateUpdateBill.updateRefund" parameterClass="List">
+			update IN_SALE_UPLOAD_M set WMFLG ='Y' where DJBH in
+			<iterate  open="(" close=")" conjunction=",">
+				#[].OrderId#
+			</iterate>
+		</update>
+    
+		<!--更新退货订单最后上传时间-->
+		<update id="StateUpdateBill.updateRefundOperDate" parameterClass="List">
+			update IN_SALE_UPLOAD_M
+			set
+			lastopdate=SYSDATE+(retry*5)/(86400),
+			retry=retry+1
+			where djbh in
+			<iterate  open="(" close=")" conjunction=" , ">
+				#[].OrderId#
+			</iterate>
+			<![CDATA[and retry<300 ]]>
+		</update>
+		<!--处理验收评定全为3状态-->
+		<update id="StateUpdateBill.setToThree" parameterClass="string">
+
+			UPDATE IN_SALE_UPLOAD_M
+			SET IN_SALE_UPLOAD_M.YSPD = '3'
+			WHERE
+			DJBH IN (
+			SELECT
+			DJBH
+			FROM
+			(
+			SELECT
+			B.DJBH,
+			SUM (B.YSPD) AS SU,
+			COUNT (*) AS CO
+			FROM
+			IN_SALE_UPLOAD_D B
+			JOIN IN_SALE_UPLOAD_M C ON B.DJBH = C.DJBH
+			WHERE
+			C.WMFLG = 'N'
+			AND C.YSPD<![CDATA[<> ]]>'3'
+			AND C.DJBHTYPE = '电商' 
+			GROUP BY
+			B.DJBH
+			) F
+			WHERE
+			MOD (F.SU / F.CO, 3) = 0
+			)
+		</update>
+		
+	</statements>
+
+</sqlMap>

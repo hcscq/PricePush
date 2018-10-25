@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{483254C3-77BF-48FA-9D96-790A7481ED9A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>wms_transmitter</RootNamespace>
+    <AssemblyName>wms_transmitter</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\39438\Desktop\pricePush\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>0EC0F67FD2B42637821262323497F10A3A6795C5</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>DLL\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common.Logging.Log4Net">
+      <HintPath>DLL\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>DLL\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>DLL\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\DLL\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess">
+      <HintPath>..\DLL\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tesla.Net.HttpServer">
+      <HintPath>..\DLL\Tesla.Net.HttpServer.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ComonUtil.cs" />
+    <Compile Include="Common\InterfaceException.cs" />
+    <Compile Include="Common\Logger.cs" />
+    <Compile Include="Common\ObjConvertUtil.cs" />
+    <Compile Include="Common\WebUtil.cs" />
+    <Compile Include="Dao\BaseDao.cs" />
+    <Compile Include="Dao\IBillingMDao.cs" />
+    <Compile Include="Dao\ICommonDao.cs" />
+    <Compile Include="Dao\Impl\BillingMDaoImpl.cs" />
+    <Compile Include="Dao\Impl\CommonDaoImpl.cs" />
+    <Compile Include="Dao\Impl\NoticeMDaoImpl.cs" />
+    <Compile Include="Dao\Impl\QueryOrderStatusDaoImpl.cs" />
+    <Compile Include="Dao\Impl\KsoaPricePushDaoImpl.cs" />
+    <Compile Include="Dao\Impl\TaskMDaoImpl.cs" />
+    <Compile Include="Dao\Impl\StockDaoImpl.cs" />
+    <Compile Include="Dao\Impl\StateUpdateBillDaoImpl.cs" />
+    <Compile Include="Dao\INoticeMDao.cs" />
+    <Compile Include="Dao\IQueryOrderStatusDao.cs" />
+    <Compile Include="Dao\ITaskMDao.cs" />
+    <Compile Include="Dao\IStockDao.cs" />
+    <Compile Include="Dao\KsoaPricePushDao .cs" />
+    <Compile Include="Dao\StateUpdateBillDao.cs" />
+    <Compile Include="Domain\BillingM.cs" />
+    <Compile Include="Domain\BillingD.cs" />
+    <Compile Include="Domain\LefetimeM.cs" />
+    <Compile Include="Domain\NoticeD.cs" />
+    <Compile Include="Domain\NoticeM.cs" />
+    <Compile Include="Domain\OUT_SALE_TASK_M.cs" />
+    <Compile Include="Domain\PPEndPointDef.cs" />
+    <Compile Include="Domain\QueryOrderStatus.cs" />
+    <Compile Include="Domain\Stock.cs" />
+    <Compile Include="Domain\UpdatePrice.cs" />
+    <Compile Include="Domain\XsckBill.cs" />
+    <Compile Include="Domain\UpdateStateBill.cs" />
+    <Compile Include="Models\BIW_KSOAContext.cs" />
+    <Compile Include="Models\Mapping\price_DataMap.cs" />
+    <Compile Include="Models\price_Data.cs" />
+    <Compile Include="Service\Impl\AcceptOrderCFServiceImpl.cs" />
+    <Compile Include="Service\Impl\OrderTBServiceImpl.cs" />
+    <Compile Include="Service\Impl\ReturnOrderCFServiceImpl.cs" />
+    <Compile Include="Service\Impl\ReverseReturnOrderServiceImpl.cs" />
+    <Compile Include="VO\Refund_M.cs" />
+    <Compile Include="VO\Refund_D.cs" />
+    <Compile Include="Domain\Refund.cs" />
+    <Compile Include="Service\Impl\CancelReturnOrderServiceImpl.cs" />
+    <Compile Include="Service\Impl\OrderCancelServiceImpl.cs" />
+    <Compile Include="Service\Impl\OrderLockServiceImpl.cs" />
+    <Compile Include="Service\Impl\OrderUNLockServiceImpl.cs" />
+    <Compile Include="Service\Impl\OrderUrgentServiceImpl.cs" />
+    <Compile Include="Service\Impl\QueryOrderStatusServiceImpl.cs" />
+    <Compile Include="Service\Impl\ReturnOrderServiceImpl.cs" />
+    <Compile Include="Service\Impl\StockServiceImpl.cs" />
+    <Compile Include="Service\IOrderHandle.cs" />
+    <Compile Include="Service\Impl\AcceptOrderServiceImpl.cs" />
+    <Compile Include="VO\CancelReturnOrdeRequest.cs" />
+    <Compile Include="VO\Goods.cs" />
+    <Compile Include="VO\OrderRequest.cs" />
+    <Compile Include="VO\ResponseModel.cs" />
+    <Compile Include="VO\ReturnOrderObj.cs" />
+    <Compile Include="VO\ReverseReturnOrdeRequest.cs" />
+    <Compile Include="VO\SendOrderState.cs" />
+    <Compile Include="VO\SendOrdersRequest.cs" />
+    <Compile Include="VO\SendReturnOrdersRequest.cs" />
+    <Compile Include="VO\PriceSelectCon.cs" />
+    <Compile Include="VO\ValObj.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AcceptRequestService.cs" />
+    <Compile Include="Domain\SendOutorder.cs" />
+    <Compile Include="VO\SendOrderOutM.cs" />
+    <Compile Include="VO\SendOrderOutD.cs" />
+    <Compile Include="Worker\SynchronizePrice.cs" />
+    <Compile Include="Worker\SynchronizeOrderStatus.cs" />
+    <Compile Include="Worker\SynchronizeOrderCFStatus.cs" />
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Config\providers.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\sqlmap_SqlServer.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\sqlmap.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="wms_transmitter_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\properties.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DLL\IBatisNet.Common.dll" />
+    <Content Include="DLL\IBatisNet.Common.Logging.Log4Net.dll" />
+    <Content Include="DLL\IBatisNet.DataMapper.dll" />
+    <Content Include="DLL\log4net.dll" />
+    <Content Include="DLL\MySql.Data.dll" />
+    <Content Include="DLL\Newtonsoft.Json.dll" />
+    <Content Include="DLL\Oracle.DataAccess.dll" />
+    <Content Include="DLL\Tesla.Net.HttpServer.dll" />
+    <Content Include="SqlMap\PriceChanged.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlMap\BillingD.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SqlMap\BillingM.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlMap\Common.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SqlMap\NoticeD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SqlMap\NoticeM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SqlMap\TaskM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SqlMap\Stock.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlMap\XsckBill.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SqlMap\StateUpdateBill.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

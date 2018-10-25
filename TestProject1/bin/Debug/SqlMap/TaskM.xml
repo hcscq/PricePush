@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <statements>
+    <!--原 功能已实现代码 测试完成后取消注释-->
+    <select id="TaskM.QueryOrderStatus"  resultClass="wms_transmitter.Domain.QueryOrderStatus">
+      <![CDATA[
+      select m.djbh, djzt,
+      case
+        when  djzt=1 then  ''   /*订单生成 */
+        when djzt=2 then d.RY_JHY   /*拣货完成 */
+        when djzt=3 then d.RY_FUHY  /*内复核完成 */
+        when djzt=4 then d.RY_WFUHY  /*外复合完成 */
+        end Operator /*操作人*/
+        , case
+        when  djzt=1 then  '订单生成'   /*订单生成 */
+        when djzt=2 then '拣货完成'   /*拣货完成 */
+        when djzt=3 then '内复核完成'  /*内复核完成 */
+        when djzt=4 then '外复核完成'  /*外复合完成 */
+        end operation /*操作*/
+        , case
+        when  djzt=1 then  null   /*订单生成 */
+        when djzt=2 then d.RWQRSJ   /*拣货完成 */
+        when djzt=3 then d.FHSQSJ  /*内复核完成 */
+        when djzt=4 then d.WFHQRSJ  /*外复合完成 */
+        end  operateTime /*操作时间*/
+      from OUT_SALE_TASK_M m join
+      (
+      select * from (
+      select row_number() over(partition by djbh order by RWQRSJ,FHSQSJ,WFHQRSJ desc ) newid,OUT_SALE_TASK_D.* from OUT_SALE_TASK_D
+      ) a where newid=1
+      ) d on m.djbh=d.djbh
+      where m.djbh in
+     ]]>
+      <iterate open="(" close=")" conjunction="," >
+        #[]#
+      </iterate>
+
+    </select>
+    
+   <!--测试代码 测试完成后删除-->
+  <!--<select id="QueryOrderStatus"  resultClass="wms_transmitter.Domain.QueryOrderStatus">
+      select m.djbh, djzt,
+      case
+        when  djzt=1 then  ''   /*订单生成 */
+        when djzt=2 then d.RY_JHY   /*拣货完成 */
+        when djzt=3 then d.RY_FUHY  /*内复核完成 */
+        when djzt=4 then d.RY_WFUHY  /*外复合完成 */
+        end Operator /*操作人*/
+        , case
+        when  djzt=1 then  '订单生成'   /*订单生成 */
+        when djzt=2 then '拣货完成'   /*拣货完成 */
+        when djzt=3 then '内复核完成'  /*内复核完成 */
+        when djzt=4 then '外复核完成'  /*外复合完成 */
+        end operation /*操作*/
+        , case
+        when  djzt=1 then  null   /*订单生成 */
+        when djzt=2 then d.RWQRSJ   /*拣货完成 */
+        when djzt=3 then d.FHSQSJ  /*内复核完成 */
+        when djzt=4 then d.WFHQRSJ  /*外复合完成 */
+        end  operateTime /*操作时间*/
+      from OUT_SALE_TASK_M m join
+      (
+      select * from (
+      select row_number() over(partition by djbh order by RWQRSJ,FHSQSJ,WFHQRSJ desc ) newid,OUT_SALE_TASK_D.* from OUT_SALE_TASK_D
+      ) a where newid=1
+      ) d on m.djbh=d.djbh
+    </select>-->
+
+    <!--锁定单据-->
+    <update id ="TaskM.updateTaskMLock" parameterClass="wms_transmitter.Domain.OUT_SALE_TASK_M">
+      <![CDATA[
+      update out_sale_task_m set sf_sd = '是', rq_sd = sysdate , ry_sd = 'SystemAdmin', sdbz = #SDBZ# where djbh = #DJBH#
+      ]]>
+    </update>
+
+    <!--解锁单据-->
+    <update id ="TaskM.updateTaskMUNLock" parameterClass="wms_transmitter.Domain.OUT_SALE_TASK_M">
+      <![CDATA[
+      update out_sale_task_m set sf_sd = '否', rq_js = sysdate , ry_js = 'SystemAdmin' where djbh = #DJBH# 
+      ]]>
+    </update>
+
+  </statements>
+
+</sqlMap>

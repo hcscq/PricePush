@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <statements>
+    <insert id="BillD.insertBillingD" parameterClass="System.Collections.IDictionary">
+      <iterate conjunction=" ">
+        insert all
+        <iterate property="listItem" conjunction=" ">
+          into out_sale_billing_d(djbh, dj_sort, spid, sl, dj, je, sl_jh, sl_lhwcl, yzid)
+          values(#listItem[].djbh#, #listItem[].dj_sort#, #listItem[].spid#, #listItem[].sl#, #listItem[].dj#, #listItem[].je#, #listItem[].sl_jh#, #listItem[].sl#, #listItem[].yzid#)
+        </iterate>
+        select 1 from dual
+      </iterate>
+    </insert>
+  </statements>
+
+</sqlMap>

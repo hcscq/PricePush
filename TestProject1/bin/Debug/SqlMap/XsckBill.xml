@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <statements>
+
+    <insert id="XsckBill.insertXsckBill" parameterClass="wms_transmitter.Domain.XsckBill">
+      insert into inf_xsck_bill(djbh, dwid,rq, ry_ywy, thfs,bmid dj_sort, spid, sl, js, lss, yzid)
+      values(#djbh#, #dwid#,SYSDATE,#ry_ywy#, #thfs#,#bmid#, #dj_sort#, #spid#, #sl#, 0, #lss#, #yzid#)
+    </insert>
+
+    <insert id="XsckBill.insertXsckBillBatch" parameterClass="System.Collections.IDictionary">
+      <iterate conjunction=" " open="" close="" >
+        insert all
+        <iterate property="listItem" conjunction=" ">
+          into inf_xsck_bill(djbh, dwid, rq, ry_ywy, thfs,bmid, dj_sort, spid, sl, js, lss, dj ,je,yzid,ddlx,sf_zy,sf_qh,shr,lxfs,fromty,cacode,caname,shopna,shopno,whcode,bunick,custna,recena,provna,cityna,distna,addres,mobile,opform,IsCod,is_invoice,short_address,teleph,TotalMoney,CodMoney,waybill_code,callstatus)
+          values(#listItem[].djbh#, #listItem[].dwid#,#listItem[].rq#,#listItem[].ry_ywy#, #listItem[].thfs#,#listItem[].bmid#, #listItem[].dj_sort#, #listItem[].spid#, #listItem[].sl#, #listItem[].js#, #listItem[].lss#, #listItem[].dj#,#listItem[].je#, #listItem[].yzid#, #listItem[].ddlx#, #listItem[].sf_zy#, #listItem[].sf_qh#, #listItem[].shr#, #listItem[].lxfs#, #listItem[].fromty#, #listItem[].cacode#, #listItem[].caname#, #listItem[].shopna#, #listItem[].shopno#, #listItem[].whcode#, #listItem[].bunick#, #listItem[].custna#, #listItem[].recena#, #listItem[].provna#,  #listItem[].cityna#, #listItem[].distna#, #listItem[].addres#, #listItem[].mobile#, #listItem[].opform#,#listItem[].IsCod#,#listItem[].is_invoice#,#listItem[].short_address#,#listItem[].teleph#,#listItem[].TotalMoney#,#listItem[].CodMoney#,#listItem[].waybill_code#,#listItem[].callstatus#)
+        </iterate>
+        select 1 from dual
+      </iterate>
+    </insert>
+
+    <insert id="XsckBill.insertXsckBillListTest" parameterClass="List">
+      insert all
+      <iterate conjunction=" ">
+        into inf_xsck_bill(djbh, dwid, dj_sort, spid, sl, js, lss, yzid, ry_ywy, rq)
+        values(#[].djbh#, #[].dwid#, #[].dj_sort#, #[].spid#, #[].sl#, 0, #[].lss#, #[].yzid#, #[].ry_ywy#, SYSDATE)
+      </iterate>
+      select 1 from dual
+    </insert>
+
+  </statements>
+
+</sqlMap>

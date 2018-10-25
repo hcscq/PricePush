@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <statements>
+
+    <!--原 功能已实现代码 测试完成后取消注释-->
+	<select id="Stock.QueryStock"  resultClass="wms_transmitter.Domain.Stock">
+    select b.SPBH,a.SPID,SL_KC from  stock a join spkfk b on a.spid=b.spid
+        where SPBH in
+    <iterate open="(" close=")" conjunction="," >   
+                    #[]#   
+                </iterate>   
+        </select>  
+
+
+
+    <!--测试代码 测试完成后删除-->
+	<!--<select id="QueryStock"  resultClass="wms_transmitter.Domain.Stock">
+    select b.SPBH,a.SPID,SL_KC from  stock a join spkfk b on a.spid=b.spid
+        </select>-->  
+
+  </statements>
+
+</sqlMap>

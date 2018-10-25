@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <statements>    
+    <!--查询退货单状态-->
+    <select id="BillingM.qryOrderStatus" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      select djzt from IN_SALE_NOTICE_M
+      where 1=1
+      <dynamic prepend="AND">
+        <isNotEmpty prepend="AND" property="djbh">
+            djbh = #djbh#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="yzid">
+            yzid = #yzid#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="bch">
+            bch = #bch#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="pickgroupno">
+            pickgroupno = #pickgroupno#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+
+    <!--查询单据是否存在-->
+    <select id ="BillM.QueryOrder" parameterClass="wms_transmitter.VO.ValObj" resultType="int">
+      <![CDATA[
+      select 1 from out_sale_billing_m where djbh = #djbh# and yzid='A00'
+      ]]>
+    </select>
+
+    <!--查询单据历史是否存在-->
+    <select id ="BillM.QueryOrderHty" parameterClass="wms_transmitter.VO.ValObj" resultType="int">
+      <![CDATA[
+      select 1 from out_sale_billing_m_hty where djbh = #djbh# and yzid='A00'
+      ]]>
+    </select>
+
+    <!--查询单据状态-->
+    <select id ="BillM.QueryOrderStatus" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      <![CDATA[
+      select zyzt from out_sale_billing_m where djbh = #djbh# and zyzt >= '8' and yzid='A00'
+      ]]>
+    </select>
+
+    <!--查询取消状态-->
+    <select id ="BillM.QueryCancelStatus" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      <![CDATA[
+      select bill_cancel from out_sale_billing_m where djbh = #djbh# and yzid='A00'
+      ]]>
+    </select>
+
+    <!--查询历史单据取消状态-->
+    <select id ="BillM.QueryCancelStatusHty" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      <![CDATA[
+      select bill_cancel from out_sale_billing_m_hty where djbh = #djbh# and yzid='A00'
+      ]]>
+    </select>
+    
+    <!--取消单据-->
+    <update id ="BillM.updateBillingMCancel" parameterClass="wms_transmitter.Domain.BillingM">
+      <![CDATA[
+      update out_sale_billing_m set bill_cancel = 'Y' where djbh = #djbh#  and yzid='A00'
+      ]]>
+    </update>
+
+    <!--加急单据-->
+    <update id ="BillM.updateBillingMUrgent" parameterClass="wms_transmitter.Domain.BillingM">
+      <![CDATA[
+      update out_sale_billing_m set is_jj = 'Y',ckyxj='40' where djbh = #djbh#  and yzid='A00'
+      ]]>
+    </update>
+
+    <!--销售平台同步-->
+    <update id ="BillM.updateBillingMTB" parameterClass="wms_transmitter.Domain.BillingM">
+      <![CDATA[
+      update out_sale_billing_m set isdelivered = #isdelivered# where djbh = #djbh#  and yzid='A00'
+      ]]>
+    </update>
+
+    <!--锁定单据-->
+    <update id ="BillM.updateBillingMLock" parameterClass="string">
+      <![CDATA[
+      update out_sale_billing_m set sf_lock = 'Y', rq_lock = sysdate , ry_lock = 'SystemAdmin', lockremark = #lockremark# where djbh = #djbh# and yzid = 'A00'
+      ]]>
+    </update>
+
+    <!--解锁单据-->
+    <update id ="BillM.updateBillingMUNLock" parameterClass="string">
+      <![CDATA[
+      update out_sale_billing_m set sf_lock = 'N', rq_unlock = sysdate , ry_unlock = 'SystemAdmin' where djbh = #djbh# and yzid = 'A00'
+      ]]>
+    </update>
+    
+    <!--插入出库开票单汇总-->
+    <insert id="BillM.insertBillingM" parameterClass="wms_transmitter.Domain.BillingM">
+      insert into out_sale_billing_m
+      (djbh, dwid, rq, ry_kpy, thfs,bmid, ckyxj, sf_zx, sf_xc, djbh_sj, kpsj, ry_czy ,thfszh,sf_dyzjbq,ddlx,yzid,is_invoice, waybill,fromty,cacode,caname,shopna,shopno,whcode,bunick,custna,recena,postco,provna,cityna,distna,addres,mobile,teleph,sememo,short_address,callstatus,opform,codmoney,totalmoney,iscod,groupcode,marketingactivity, sendstationcode,sendstation,targetareacode,targetstation,targetstationcode)
+      values
+      (#djbh#, #dwid#,#rq#,#ry_kpy#, #thfs#,#bmid#, #ckyxj#, #sf_zx#, #sf_xc#, #djbh_sj#, #kpsj#, #ry_czy#,#thfszh#, #sf_dyzjbq#, #ddlx#, #yzid#, #is_invoice#, #waybill#, #fromty#, #cacode#, #caname#, #shopna#, #shopno#, #whcode#, #bunick#, #custna#, #recena#,  #postco#, #provna#, #cityna#, #distna#, #addres#,#mobile#,#teleph# , #sememo#, #short_address#,#callstatus#,#opform#,#codmoney#,#totalmoney#,#iscod#,#groupcode#,#marketingactivity#, #sendStationCode#,#sendStation#,#targetareacode#,#targetstation#,#targetstationcode#)
+    </insert>
+  </statements>
+
+</sqlMap>

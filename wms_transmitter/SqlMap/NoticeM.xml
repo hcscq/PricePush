@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <statements>
+
+    <insert id="NoticeM.insertNoticeM" parameterClass="wms_transmitter.Domain.NoticeM">
+      insert into IN_SALE_NOTICE_M(djbh, djbh_sj, rq, dwid, bmid, shopcode, shopname, yzid, whcode, thlb, djbhtype, expresscode, expressnumber, consigneename, mobile, teleph,opform,bz,custSer,type,fromsys)
+      values(#djbh#, #djbh_sj#, sysdate, #dwid#, #bmid#, #shopcode#, #shopname#, #yzid#, #whcode#, #thlb#, #djbhtype#, #expresscode#, #expressnumber#, #consigneename#, #mobile#, #teleph#,#opform#,#remark#,#custSer#,#type#,#fromsys#)
+    </insert>
+
+    <!--反审订单插入历史表-->
+    <insert id="NoticeM.insertNoticeMHTY" parameterClass="string">
+      insert into IN_SALE_NOTICE_M_HTY(djbh, rq, dwid, bmid, ry_ywy, ry_zjy, ry_shouhy, ry_czy, dhfs, sf_zx, sf_xc, djbh_sj, sf_zy, ry_shenhy, yj_sh, sf_sh, sf_dg, sf_js, sf_dy, ry_psy, sf_sjsh, ry_sjshr, dj_ssgs, yzid, ry_zjy1, sf_shsh, fjrq, ry_fjy, thlb, bill_cancel, whcode, storecode, expresscode, expressnumber, mobile, consigneeaddress, consigneename, shopcode, shopname, orderno, ry_shouhy2, teleph, djbhtype, kprq, opform,billfrom,bz,custSer,type,fromsys)
+      select djbh, rq, dwid, bmid, ry_ywy, ry_zjy, ry_shouhy, ry_czy, dhfs, sf_zx, sf_xc, djbh_sj, sf_zy, ry_shenhy, yj_sh, sf_sh, sf_dg, sf_js, sf_dy, ry_psy, sf_sjsh, ry_sjshr, dj_ssgs, yzid, ry_zjy1, sf_shsh, fjrq, ry_fjy, thlb, bill_cancel, whcode, storecode, expresscode, expressnumber, mobile, consigneeaddress, consigneename, shopcode, shopname, orderno, ry_shouhy2, teleph, djbhtype, kprq, opform,1,bz,custSer,type,fromsys from in_sale_notice_m
+      where djbh = #djbh#
+    </insert>
+
+    <!--删除反审订单-->
+    <delete id="NoticeM.deleteNoticeM" parameterClass="string">
+      delete from IN_SALE_NOTICE_M
+      where djbh = #djbh#
+    </delete>
+
+    <update id="NoticeM.cancelNoticeM" parameterClass="string">
+      update IN_SALE_NOTICE_M
+      set bill_cancel = 'Y'
+      where sf_shsh='否' 
+            and djbh = #djbh#
+    </update>
+
+    <update id="NoticeM.updateNoticeM" parameterClass="wms_transmitter.Domain.NoticeM">
+      update IN_SALE_NOTICE_M
+      set bill_cancel = #bill_cancel#
+      where djbh = #djbh#
+    </update>
+
+	  <select id="NoticeM.SelectNoticeDCanReverse" parameterType="string" resultType="string">
+      select count(1) from in_sale_notice_d where sf_shsh='是'
+      and djbh=#djbh#
+    </select>
+
+    <select id="NoticeM.SelectNoticeMCanReverse" parameterType="string" resultType="string">
+      select count(1) from in_sale_notice_m
+      where djbh=#djbh#
+    </select>
+   
+    <select id="NoticeM.selectTest" parameterType="string" resultType="string">
+      select CONSIGNEEADDRESS from IN_SALE_NOTICE_M
+      where djbh=#djbh#
+    </select>
+
+  </statements>
+
+</sqlMap>

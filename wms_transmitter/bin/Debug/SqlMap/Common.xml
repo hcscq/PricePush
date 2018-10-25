@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+  <typeAlias alias="LefetimeM" type="wms_transmitter.Domain.LefetimeM"/>
+    </alias>
+  <parameterMaps>
+    <parameterMap id="InsertLefetimeM" class="LefetimeM">
+      <parameter property="ORDER_NO" column="ORDER_NO"  type="string" dbType="VARCHAR2" direction="Input"/>
+      <parameter property="CONTENT" column="CONTENT"  type="string" dbType="VARCHAR2" direction="Input"/>
+      <parameter property="OPERATOR_NAME" column="OPERATOR_NAME"  type="string" dbType="VARCHAR2" direction="Input"/>
+      <parameter property="BUSSNESS_STEP_NO" column="BUSSNESS_STEP_NO" direction="Input"/>
+      <parameter property="BUSSNESS_STEP_NAME" column="BUSSNESS_STEP_NAME"  type="string" dbType="VARCHAR2" direction="Input"/>
+    </parameterMap>
+  </parameterMaps>
+  
+  <statements>
+    <!--获取系统时间-->
+    <select id="Common.selectDate" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      select sysdate from dual
+    </select>
+
+    <!--获取物流商编号-->
+    <select id="Common.QueryPhysicalId" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      select dwid from ps_tygs where cacode = #cacode# and dylx = #dylx# and iscod = #iscod#
+    </select>
+
+    <!--获取物流商名称-->
+    <select id="Common.QueryPhysicalName" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      select dwmch from ps_tygs where cacode = #cacode# and dylx = #dylx# and iscod = #iscod#
+    </select>
+
+    <!--获取运单类型-->
+    <select id="Common.QueryWaybill" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      select dylx from ps_tygs where dwid = #dwid#
+    </select>
+
+    <!--获取商品资料-->
+    <select id="Common.QueryGoods" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      select spid from spkfk where spbh = #spbh# and yzid = 'A00'
+    </select>
+
+    <!--获取店铺资料-->
+    <select id="Common.QueryShop" parameterClass="wms_transmitter.VO.ValObj" resultType="string">
+      select zdnr from jc_zdwh_mx t where zdz = #shopno#
+    </select>
+
+    <!--获取出库表重复-->
+    <select id="Common.QueryBillingM" parameterClass="wms_transmitter.Domain.BillingM" resultType="string">
+      select djbh from v_out_sale_billing_m where djbh = #djbh# and yzid='A00'
+    </select>
+    
+    <!--插入全程跟踪表-->
+    <!--<insert id="Common.insertLefetimeM" parameterClass="wms_transmitter.Domain.LefetimeM">
+      INSERT INTO ORDER_LEFETIME_MESSAGE
+      (ORDER_NO, CONTENT, OPERATOR_NAME, BUSSNESS_STEP_NO, BUSSNESS_STEP_NAME, ISACTIVE)
+      VALUES( #ORDER_NO#, #CONTENT#, #OPERATOR_NAME#, #BUSSNESS_STEP_NO#, #BUSSNESS_STEP_NAME#, #ISACTIVE#);
+    </insert>-->
+
+    <procedure id="PROC_OPERATE_REC" parameterMap="InsertLefetimeM">
+      PROC_OPERATE_REC
+    </procedure>
+    
+  </statements>
+</sqlMap>

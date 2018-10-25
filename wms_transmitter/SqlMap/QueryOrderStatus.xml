@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <statements>
+
+	<select id="QueryOrderStatus"  resultClass="wms_transmitter.Domain.OUT_SALE_TASK_M">   
+          select DJBH,DWID,DJZT from out_sale_task_m m where djbh in
+                <iterate open="(" close=")" conjunction="," >   
+                    #[]#   
+                </iterate>   
+        </select>  
+
+  </statements>
+
+</sqlMap>

@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="wms_transmitter.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="notifyServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">172.16.1.104</Value>
+    </Setting>
+    <Setting Name="notifyPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5678</Value>
+    </Setting>
+    <Setting Name="Server" Type="System.String" Scope="User">
+      <Value Profile="(Default)"> 10.7.30.214</Value>
+    </Setting>
+    <Setting Name="Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">9527</Value>
+    </Setting>
+    <Setting Name="key" Type="System.String" Scope="User">
+      <Value Profile="(Default)">123,1234</Value>
+    </Setting>
+    <Setting Name="screct" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1qaz2wsx</Value>
+    </Setting>
+    <Setting Name="requestUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">api</Value>
+    </Setting>
+    <Setting Name="yzid" Type="System.String" Scope="User">
+      <Value Profile="(Default)">A00</Value>
+    </Setting>
+    <Setting Name="dwid" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DWI10000001</Value>
+    </Setting>
+    <Setting Name="bmid" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DBM00000006</Value>
+    </Setting>
+    <Setting Name="cfkey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1234</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

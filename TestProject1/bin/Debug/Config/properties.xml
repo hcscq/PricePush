@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+  <add key="wms_connectionString"
+     value="DATA SOURCE = (DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.7.76.102)(PORT = 1521)))(CONNECT_DATA = (SERVER = DEDICATED)(SID = ORCL))); USER ID = wms_qlk; PASSWORD = wms_qlk_1020"/>
+
+  <add key="wmstest_connString"
+     value="DATA SOURCE = (DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 172.16.1.224)(PORT = 1521)))(CONNECT_DATA = (SERVER = DEDICATED)(SID = WMS))); USER ID = wms_qlk_cs; PASSWORD = wms_qlk_cs"/>
+
+  <!--<add key="ksoaConnectionString"
+      value="Data Source=192.168.1.250;Initial Catalog=ksoa;Persist Security Info=True;User ID=sa;pwd=xykj!"
+      providerName="System.Data.SqlClient" />-->
+  <add key="ksoaConnectionString" value="server=192.168.1.250;uid=sa;pwd=xykj!;database=ksoa"/>
+</settings>

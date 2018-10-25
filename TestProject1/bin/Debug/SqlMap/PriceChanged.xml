@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="IbatisDemo.DemoNumber"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<statements>
+		<select id="PriceChanged.GetData" parameterClass="wms_transmitter.VO.PriceSelectCon" resultClass="wms_transmitter.Domain.UpdatePrice">
+			SELECT
+			K.ID,
+			K.SPID,
+			K.SPBH,
+			K.HW,
+			K.CHBDJ*(1+ISNULL((
+			case when
+			(select top 1 shlv from jh_rkmx(nolock) where jh_rkmx.spid=K.spid order by jh_rkmx.rq desc) is not null
+			then
+			(select top 1 shlv from jh_rkmx(nolock) where jh_rkmx.spid=K.spid order by jh_rkmx.rq desc)
+			when (select top 1 shlv from spkfk(nolock) where spkfk.spid=K.spid) is not null
+			then (select top 1 shlv from spkfk(nolock) where spkfk.spid=K.spid)
+			when (select top 1 shlv from sku_spkfk_shlv(nolock) where sku_spkfk_shlv.spid=K.spid) is not null
+			then (select top 1 shlv from sku_spkfk_shlv(nolock) where sku_spkfk_shlv.spid=K.spid)
+			else
+			(SELECT TOP 1 SHLV FROM  gsspdyb B WHERE B.SPID=K.SPID)
+			end
+			),0)/100) AS CHBDJ
+			FROM(
+			SELECT
+			A.ID,
+			ROW_NUMBER()OVER(ORDER BY A.LASTMODIFYTIME) AS 'Row',
+			A.SPID,
+			A.SPBH,
+			A.HW,
+			A.CHBDJ
+			FROM price_Data A
+			WHERE
+			A.IS_PUSHED=0
+			AND
+			A.HW=#stock#
+			)K  WHERE K.ROW<![CDATA[<=]]>#Dcount#
+		</select>
+
+		<update id="PriceChanged.UpdateFailed" parameterClass="List">
+			update price_Data set lastmodifytime=getdate() where ID in
+			<iterate  open="(" close=")" conjunction=",">
+				#[].ID#
+			</iterate>
+		</update>
+		<update id="PriceChanged.UpdateSuccess" parameterClass="List">
+			update price_Data set lastmodifytime=getdate(),lastuploadtime=getdate(),is_pushed=1 where ID in
+			<iterate  open="(" close=")" conjunction=",">
+				#[].ID#
+			</iterate>
+		</update>
+		<update id="PriceChanged.NotFindGoods" parameterClass="List">
+			update price_Data set lastmodifytime=getdate(),is_pushed=1 where ID in
+			<iterate  open="(" close=")" conjunction=",">
+				#[].ID#
+			</iterate>
+		</update>
+	</statements>
+
+</sqlMap>
